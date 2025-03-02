@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\online-school-api.props" />
+</Project>

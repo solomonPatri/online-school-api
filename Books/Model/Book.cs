@@ -24,7 +24,7 @@ namespace online_school_api.Books.Model
 
         [Required]
         [Column("created")]
-         public DateOnly Created { get; set; }
+         public DateTime Created { get; set; }
 
         public virtual Student Student { get; set; }
 

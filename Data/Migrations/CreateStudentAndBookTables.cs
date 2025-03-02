@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace online_school_api.Migrations
 {
-    public partial class CreateStudentAndBookTables : Migration
-    {
+    [Migration("asdsadsadsadsa")]
+    public partial class CreateStudentAndBookTables : Migration { 
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -31,7 +31,7 @@ namespace online_school_api.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "longtext", nullable: false),
-                    created = table.Column<DateOnly>(type: "date", nullable: false),
+                    created = table.Column<DateTime>(type: "date", nullable: false),
                     student_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

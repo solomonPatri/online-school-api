@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using online_school_api;
+using online_school_api.Books.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace online_school_api.student.Model
+namespace online_school_api.Students.Model
 {
     [Table("students")]
 
@@ -33,6 +34,9 @@ namespace online_school_api.student.Model
         [Required]
         [Column("university")]
         public string University { get; set; }
+
+
+        public virtual List<Book> Books { get; set; } = new();
 
         
 
