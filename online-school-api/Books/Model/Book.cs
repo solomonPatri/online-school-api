@@ -19,7 +19,7 @@ namespace online_school_api.Books.Model
         [Column("name")]
         public string Name { get; set; }
 
-
+      
         public int StudentId { get; set; }
 
         [Required]
