@@ -12,8 +12,10 @@ namespace online_school_api.Students.Mappers
             CreateMap<StudentRequest, Student>();
             CreateMap<Student, StudentResponse>();
 
-            CreateMap<StudentResponse, GetAllStudentsDto>();
 
+            CreateMap<Student, StudentResponse>()
+
+              .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
 
 
 

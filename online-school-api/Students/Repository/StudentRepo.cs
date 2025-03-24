@@ -1,116 +1,53 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using online_school_api.Data;
 using online_school_api.Students.Dtos;
-using System.Reflection;
+using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
-using System.Data.Entity;
 
 namespace online_school_api.Students.Repository
 {
     public class StudentRepo : IStudentRepo
     {
-
-        private readonly AppDbContext _appdbcontextstudent;
-
+        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-
-        public StudentRepo(AppDbContext appstudent,IMapper mapper)
+        public StudentRepo(AppDbContext context, IMapper mapper)
         {
-            this._appdbcontextstudent = appstudent;
-            this._mapper = mapper;
-
-
-
+            _context = context;
+            _mapper = mapper;
         }
 
-
-        public async   Task<StudentResponse> AddStudentAsync(StudentRequest newstudent)
+        public async Task<GetAllStudentsDto> GetAllAsync()
         {
-            Student student = _mapper.Map<Student>(newstudent);
+            var students = await _context.Students
+                .Include(s => s.Books)
+                .ToListAsync();
 
-            _appdbcontextstudent.Add(student);
+            var mapped = _mapper.Map<List<StudentResponse>>(students);
 
-            await _appdbcontextstudent.SaveChangesAsync();
-
-            StudentResponse response = _mapper.Map<StudentResponse>(student);
-
-            return response;
-
-
-
-
-
-
+            return new GetAllStudentsDto
+            {
+                ListStudent = mapped
+            };
         }
 
-        public async Task<GetAllStudentsDto> GetAllStudentAsync()
+        public async Task<StudentResponse> CreateStudentAsync(StudentRequest studentRequest)
         {
+            var existing = await _context.Students
+                .FirstOrDefaultAsync(s => s.Name == studentRequest.Name);
 
-           IList<Student> students = await _appdbcontextstudent.Students.ToListAsync();
+            if (existing != null)
+                throw new StudentAlreadyExistExcept();
 
-            var list = students.Select(m => _mapper.Map<StudentResponse>(m)).ToList();
+            var studentEntity = _mapper.Map<Student>(studentRequest);
 
-            GetAllStudentsDto response = new GetAllStudentsDto();
+            await _context.Students.AddAsync(studentEntity);
+            await _context.SaveChangesAsync();
 
-            response.ListStudent = list;
+            var studentResponse = _mapper.Map<StudentResponse>(studentEntity);
 
-            return response;
-
+            return studentResponse;
         }
-
-        public async Task<StudentResponse> FindByName(string name)
-        {
-
-            Student student = await _appdbcontextstudent.Students.FirstOrDefaultAsync(m => m.Name.Equals(name));
-
-            StudentResponse response = _mapper.Map<StudentResponse>(student);
-            return response;
-
-
-
-
-
-
-
-
-
-
-        }
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

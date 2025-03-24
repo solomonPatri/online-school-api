@@ -1,11 +1,11 @@
-﻿namespace online_school_api.System
+﻿namespace online_school_api.system
 {
     public class ExceptionsMessage
     {
 
         public const string StudentAlreadyExistsExcpt = "The Student already exist";
 
-
+        public const string StudentNotFoundException = "The Student doesn't exist";
 
 
 

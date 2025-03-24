@@ -1,6 +1,9 @@
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using online_school_api.Data;
+using online_school_api.Students.Repository;
+using online_school_api.Students.Service;
+using System.Windows.Input;
 
 public class Program
 {
@@ -29,6 +32,13 @@ public class Program
                 .WithGlobalConnectionString(builder.Configuration.GetConnectionString("Default"))
                 .ScanIn(typeof(Program).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
+
+
+        builder.Services.AddScoped<IQueryServiceStudent, QueryServiceStudent>();
+        builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+        builder.Services.AddScoped<ICommandServiceStudent, CommandServiceStudent>();
+
+
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

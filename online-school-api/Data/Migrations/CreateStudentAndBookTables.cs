@@ -18,7 +18,7 @@ namespace online_school_api.Migrations
                 .WithColumn("id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("name").AsString().NotNullable()
                 .WithColumn("created").AsDateTime().NotNullable()
-                .WithColumn("student_id").AsInt32().ForeignKey("students", "id").OnDelete(System.Data.Rule.Cascade);
+                .WithColumn("StudentId").AsInt32().ForeignKey("students", "id").OnDelete(System.Data.Rule.Cascade);
         }
 
         public override void Down()
