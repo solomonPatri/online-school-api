@@ -12,9 +12,7 @@ namespace online_school_api.Books.Mappers
 
             CreateMap<BookRequest, Book>();
             CreateMap<Book, BookResponse>();
-
-            CreateMap<Book, BookResponse>()
-              .ForMember(dest => dest.Student, opt => opt.Ignore());
+            CreateMap<Book, BookResponse>();
 
 
 

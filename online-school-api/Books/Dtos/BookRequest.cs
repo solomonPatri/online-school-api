@@ -12,9 +12,8 @@ namespace online_school_api.Books.Dtos
 
         public int StudentId { get; set; }
 
-        public DateTime Created { get; set; }
-
-        public virtual Student Student { get; set; }
+       
+        
 
 
 

@@ -49,5 +49,27 @@ namespace online_school_api.Students.Repository
 
             return studentResponse;
         }
+
+        public async Task<StudentResponse> GetByIdAsync(int id)
+        {
+            var student = await _context.Students
+                .Include(s => s.Books)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            return _mapper.Map<StudentResponse>(student);
+        }
+        public async Task<Student?> GetEntityByIdAsync(int id)
+        {
+            return await _context.Students
+                .Include(s => s.Books)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+        public async Task UpdateAsync(Student student)
+        {
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

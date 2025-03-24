@@ -14,8 +14,10 @@ namespace online_school_api.Students.Repository
         Task<StudentResponse> CreateStudentAsync(StudentRequest studentRequest);
 
 
-        Task<StudentRequest?> GetByIdAsync(int id);
-
+        Task<StudentResponse> GetByIdAsync(int id);
+   
+        Task<Student?> GetEntityByIdAsync(int id);
+        Task UpdateAsync(Student student);
 
     }
 }

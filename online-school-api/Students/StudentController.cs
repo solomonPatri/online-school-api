@@ -3,6 +3,7 @@ using online_school_api.Students.Dtos;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Service;
 using System.Security.AccessControl;
+using online_school_api.Books.Dtos;
 
 namespace online_school_api.Students
 {
@@ -63,7 +64,19 @@ namespace online_school_api.Students
         }
 
 
-
+        [HttpPost("addBook")]
+        public async Task<ActionResult<BookResponse>> AddBookAsync([FromBody] BookRequest bookRequest)
+        {
+            try
+            {
+                var response = await _command.AddBookAsync(bookRequest);
+                return Created("", response);
+            }
+            catch (StudentNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
 
 
