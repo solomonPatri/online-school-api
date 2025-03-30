@@ -11,7 +11,8 @@ namespace online_school_api.Students.Mappers
         {
             CreateMap<StudentRequest, Student>();
             CreateMap<Student, StudentResponse>();
-
+            CreateMap<StudentUpdateRequest, Student>();
+        
 
             CreateMap<Student, StudentResponse>()
 

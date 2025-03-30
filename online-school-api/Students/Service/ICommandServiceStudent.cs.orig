@@ -11,12 +11,16 @@ namespace online_school_api.Students.Service
 
         Task<BookResponse> AddBookAsync(BookRequest bookRequest);
 
-        Task<StudentResponse> UpdateStudentAsync(int id,StudentUpdateRequest update);
+<<<<<<< HEAD
+        
+=======
+>>>>>>> 3f9323812e00cf2d4be7c5eab33c8bd48fbbe4ad
 
-        Task<StudentResponse> DeleteStudentAsync(int id);
 
 
-        Task<BookResponse> DeleteBookAsync(int idstudent,int idbook);
+
+
+
 
 
 

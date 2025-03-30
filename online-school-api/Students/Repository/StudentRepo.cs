@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using online_school_api.Books.Dtos;
 using online_school_api.Data;
 using online_school_api.Students.Dtos;
 using online_school_api.Students.Exceptions;
@@ -34,19 +35,13 @@ namespace online_school_api.Students.Repository
 
         public async Task<StudentResponse> CreateStudentAsync(StudentRequest studentRequest)
         {
-            var existing = await _context.Students
-                .FirstOrDefaultAsync(s => s.Name == studentRequest.Name);
-
-            if (existing != null)
-                throw new StudentAlreadyExistExcept();
+          
 
             var studentEntity = _mapper.Map<Student>(studentRequest);
 
             await _context.Students.AddAsync(studentEntity);
             await _context.SaveChangesAsync();
-
             var studentResponse = _mapper.Map<StudentResponse>(studentEntity);
-
             return studentResponse;
         }
 
@@ -64,11 +59,131 @@ namespace online_school_api.Students.Repository
                 .Include(s => s.Books)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
+        public async Task<StudentResponse> UpdateAsync(int id ,StudentUpdateRequest update)
+        {
+
+            Student exist = await _context.Students.FindAsync(id);
+
+            if (update.Name != null)
+            {
+                exist.Name = update.Name;
+            }
+            if (update.Email != null)
+            {
+                exist.Email = update.Email;
+            }
+            if (update.Age.HasValue)
+            {
+                exist.Age = update.Age.Value;
+            }
+            if(update.University!=null)
+            {
+                exist.University = update.University;
+            }
+
+            _context.Students.Update(exist);
+            await _context.SaveChangesAsync();
+            StudentResponse response = _mapper.Map<StudentResponse>(exist);
+
+            return response;
+
+
+
+
+
+
+        }
+
+        public async Task<StudentResponse> FindByNameStudentAsync(string name)
+        {
+
+            Student searched = await _context.Students.FirstOrDefaultAsync(n => n.Name.Equals(name));
+
+            StudentResponse response = _mapper.Map<StudentResponse>(searched);
+
+            return response;
+
+
+
+
+
+
+        }
+
+       public async  Task<StudentResponse> FindByIdAsync(int id)
+        {
+
+
+            Student student = await _context.Students.FindAsync(id);
+
+            StudentResponse response = _mapper.Map<StudentResponse>(student);
+
+            return response;
+
+
+
+
+
+        }
+
+
         public async Task UpdateAsync(Student student)
         {
             _context.Students.Update(student);
             await _context.SaveChangesAsync();
+
         }
+
+
+        public async Task<StudentResponse> DeleteStudentAsync(int id)
+        {
+            Student student = await _context.Students.FindAsync(id);
+            StudentResponse response = _mapper.Map<StudentResponse>(student);
+
+            _context.Remove(student);
+            await _context.SaveChangesAsync();
+
+            return response;
+
+
+
+        }
+        public async Task<DeleteBookRequest> DeleteBookAsync(int idstudent, int idBook)
+        {
+            var student = await _context.Students.Include(s => s.Books).FirstOrDefaultAsync(s=>s.Id==idstudent);
+
+            var book = student.Books.FirstOrDefault(b => b.Id == idBook);
+            student.Books.Remove(book);
+
+            _context.Books.Remove(book);
+
+            await _context.SaveChangesAsync();
+
+           
+            DeleteBookRequest response = new DeleteBookRequest();
+
+            response.StudentId = student.Id;
+            response.BookId = book.Id;
+
+            return response;
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
 
 
     }

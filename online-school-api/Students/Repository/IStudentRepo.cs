@@ -17,7 +17,26 @@ namespace online_school_api.Students.Repository
         Task<StudentResponse> GetByIdAsync(int id);
    
         Task<Student?> GetEntityByIdAsync(int id);
+
+        Task<StudentResponse> UpdateAsync(int id, StudentUpdateRequest update);
+
+
+        Task<StudentResponse> FindByNameStudentAsync(string name);
+
+        Task<StudentResponse> FindByIdAsync(int id);
         Task UpdateAsync(Student student);
+
+
+        Task<StudentResponse> DeleteStudentAsync(int id);
+
+        Task<DeleteBookRequest> DeleteBookAsync(int idstudent, int idBook);
+
+
+
+
+
+
+
 
     }
 }

@@ -79,6 +79,88 @@ namespace online_school_api.Students
         }
 
 
+        [HttpPut("updateStudent/{id}")]
+
+        public async Task<ActionResult<StudentResponse>> UpdateStudentAsync([FromRoute] int id, [FromBody]StudentUpdateRequest update)
+        {
+            try
+            {
+                StudentResponse response = await _command.UpdateStudentAsync(id, update);
+
+                return Accepted("", response);
+
+
+
+
+
+            }catch(StudentNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+
+
+
+
+
+
+        }
+
+
+        [HttpDelete("DeleteStudent/{id}")]
+        public async Task<ActionResult<StudentResponse>> DeleteStudentAsync([FromRoute]int id)
+        {
+            try
+            {
+                StudentResponse response = await _command.DeleteStudentAsync(id);
+                return Accepted("", response);
+
+            }
+            catch(StudentNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+
+
+
+        }
+
+
+        [HttpDelete("DeleteBook/{studentid}/{bookid}")]
+
+        public async Task<ActionResult<BookResponse>> DeleteBookAsync([FromRoute] int studentid, [FromRoute] int bookid)
+        {
+
+            try
+            {
+
+                BookResponse response = await _command.DeleteBookAsync(studentid, bookid);
+
+                return Accepted("", response);
+
+
+
+            }
+            catch (StudentNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+
+
 
 
 

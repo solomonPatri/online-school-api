@@ -5,6 +5,7 @@ using online_school_api.Students.Dtos;
 using online_school_api.Students.Repository;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace online_school_api.Students.Service
 {
@@ -27,7 +28,16 @@ namespace online_school_api.Students.Service
 
        public async  Task<StudentResponse> CreateAsync(StudentRequest student)
        {
-           return await this._repo.CreateStudentAsync(student);
+            StudentResponse verif = await this._repo.FindByNameStudentAsync(student.Name);
+
+            if(verif== null)
+            {
+                StudentResponse response = await this._repo.CreateStudentAsync(student);
+
+                return response;
+            }
+            throw new StudentAlreadyExistExcept();
+
 
        }
        public async Task<BookResponse> AddBookAsync(BookRequest bookRequest)
@@ -46,6 +56,88 @@ namespace online_school_api.Students.Service
 
            return _mapper.Map<BookResponse>(book);
        }
+
+
+        public async Task<StudentResponse> UpdateStudentAsync(int id,StudentUpdateRequest update)
+        {
+
+            StudentResponse verf = await this._repo.FindByIdAsync(id);
+
+            if(verf != null)
+            {
+                if(verf is StudentRequest)
+                {
+
+                    verf.Name = update.Name ?? verf.Name;
+                    verf.Email = update.Email ?? verf.Email;
+                    verf.Age = update.Age ?? verf.Age;
+                    verf.University = update.University ??verf.University;
+
+                    StudentResponse response = await this._repo.UpdateAsync(id, update);
+
+                    return response;
+
+
+                }
+               
+
+
+            }
+            throw new StudentNotFoundException();
+
+
+
+        }
+
+        public async Task<StudentResponse> DeleteStudentAsync(int id)
+        {
+            StudentResponse vef = await _repo.FindByIdAsync(id);
+
+            if(vef != null)
+            {
+
+                StudentResponse response = await _repo.DeleteStudentAsync(id);
+
+                return response;
+
+            }
+            throw new StudentNotFoundException();
+
+
+
+
+
+
+        }
+
+
+       public async  Task<BookResponse> DeleteBookAsync(int idstudent,int idBook)
+        {
+            var student = await _repo.FindByIdAsync(idstudent);
+            var book = student.Books.FirstOrDefault(s => s.Id == idBook);
+
+            if(student!= null)
+            {
+                if (book != null)
+                {
+                    DeleteBookRequest delete = await _repo.DeleteBookAsync(idstudent, idBook);
+
+                    BookResponse response = _mapper.Map<BookResponse>(book);
+
+                    return response;
+
+
+
+                }
+                
+
+            }
+            throw new StudentNotFoundException();
+
+
+
+        }
+
 
 
 
