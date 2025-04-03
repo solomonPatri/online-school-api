@@ -14,7 +14,7 @@ namespace online_school_api.Books.Mappers
             CreateMap<BookRequest, Book>();
             CreateMap<Book, BookResponse>();
             CreateMap<Book, BookResponse>();
-            CreateMap<DeleteBookRequest, BookResponse>();
+          
 
 
 

@@ -7,6 +7,7 @@
 
         public const string StudentNotFoundException = "The Student doesn't exist";
 
+        public const string BookNotFoundException = "The book doesn't exist";
 
 
 

@@ -6,6 +6,8 @@ using online_school_api.Students.Repository;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
 using Microsoft.AspNetCore.Server.IIS.Core;
+using online_school_api.Books.Exceptions;
+using System.CodeDom;
 
 namespace online_school_api.Students.Service
 {
@@ -113,27 +115,26 @@ namespace online_school_api.Students.Service
 
        public async  Task<BookResponse> DeleteBookAsync(int idstudent,int idBook)
         {
-            var student = await _repo.FindByIdAsync(idstudent);
-            var book = student.Books.FirstOrDefault(s => s.Id == idBook);
+            Student student = await _repo.GetEntityByIdAsync(idstudent);
+            Book book = student.Books.FirstOrDefault(s => s.Id == (idBook));
 
-            if(student!= null)
+            if (student != null)
             {
                 if (book != null)
                 {
-                    DeleteBookRequest delete = await _repo.DeleteBookAsync(idstudent, idBook);
 
-                    BookResponse response = _mapper.Map<BookResponse>(book);
+                    BookResponse response = await _repo.DeleteBookAsync(idstudent, idBook);
 
                     return response;
 
 
-
                 }
-                
+
+                throw new BookNotFoundException();
 
             }
-            throw new StudentNotFoundException();
 
+            throw new StudentNotFoundException();
 
 
         }

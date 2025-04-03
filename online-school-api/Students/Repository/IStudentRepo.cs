@@ -1,4 +1,5 @@
-﻿using online_school_api.Students.Dtos;
+﻿using online_school_api.Books.Dtos;
+using online_school_api.Students.Dtos;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
 
@@ -29,7 +30,7 @@ namespace online_school_api.Students.Repository
 
         Task<StudentResponse> DeleteStudentAsync(int id);
 
-        Task<DeleteBookRequest> DeleteBookAsync(int idstudent, int idBook);
+        Task<BookResponse> DeleteBookAsync(int idstudent, int idBook);
 
 
 

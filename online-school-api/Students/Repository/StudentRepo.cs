@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using online_school_api.Books.Dtos;
+using online_school_api.Books.Model;
 using online_school_api.Data;
 using online_school_api.Students.Dtos;
 using online_school_api.Students.Exceptions;
@@ -134,7 +135,6 @@ namespace online_school_api.Students.Repository
 
         }
 
-
         public async Task<StudentResponse> DeleteStudentAsync(int id)
         {
             Student student = await _context.Students.FindAsync(id);
@@ -148,34 +148,21 @@ namespace online_school_api.Students.Repository
 
 
         }
-        public async Task<DeleteBookRequest> DeleteBookAsync(int idstudent, int idBook)
+       public async Task<BookResponse >  DeleteBookAsync (int idstudent,int idbook)
         {
-            var student = await _context.Students.Include(s => s.Books).FirstOrDefaultAsync(s=>s.Id==idstudent);
+            Student student = await GetEntityByIdAsync(idstudent);
 
-            var book = student.Books.FirstOrDefault(b => b.Id == idBook);
-            student.Books.Remove(book);
+            Book searched = student.Books.FirstOrDefault(s => s.Id==(idbook));
 
-            _context.Books.Remove(book);
-
+            if (searched != null)
+            {
+                student.Books.Remove(searched);
+            }
             await _context.SaveChangesAsync();
 
-           
-            DeleteBookRequest response = new DeleteBookRequest();
-
-            response.StudentId = student.Id;
-            response.BookId = book.Id;
-
-            return response;
-
-
-
-
-
-
-
+            return _mapper.Map<BookResponse>(searched);
 
         }
-
 
 
 

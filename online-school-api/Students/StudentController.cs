@@ -4,6 +4,7 @@ using online_school_api.Students.Exceptions;
 using online_school_api.Students.Service;
 using System.Security.AccessControl;
 using online_school_api.Books.Dtos;
+using online_school_api.Books.Exceptions;
 
 namespace online_school_api.Students
 {
@@ -143,6 +144,9 @@ namespace online_school_api.Students
 
 
 
+            }catch(BookNotFoundException nf)
+            {
+                return NotFound(nf.Message);
             }
             catch (StudentNotFoundException nf)
             {
