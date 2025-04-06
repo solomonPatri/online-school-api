@@ -2,6 +2,7 @@
 using System.Diagnostics.SymbolStore;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
+using online_school_api.Students.Dtos;
 
 namespace online_school_api.Students.Service
 {

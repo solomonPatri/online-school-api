@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace online_school_api.Migrations
 {

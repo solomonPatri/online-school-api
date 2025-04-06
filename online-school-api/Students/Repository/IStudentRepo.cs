@@ -1,6 +1,5 @@
 ﻿using online_school_api.Books.Dtos;
 using online_school_api.Students.Dtos;
-using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
 
 
