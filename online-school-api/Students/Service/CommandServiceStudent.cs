@@ -140,6 +140,59 @@ namespace online_school_api.Students.Service
         }
 
 
+        public async Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook)
+        {
+
+            StudentResponse stud = await _repo.FindByIdAsync(idstudent);
+
+            BookResponse book = stud.Books.FirstOrDefault(s => s.Id == idbook);
+
+            if (book != null)
+            {
+               if(book is BookRequest) {
+
+
+                    book.Name = updatebook.Name ?? book.Name;
+
+                    BookResponse response = await _repo.UpdateBookAsync(idstudent, idbook, updatebook);
+                    return response;
+
+
+
+                }
+
+            }
+            throw new BookNotFoundException();
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ using online_school_api.Books.Dtos;
 using online_school_api.Books.Model;
 using online_school_api.Data;
 using online_school_api.Students.Dtos;
+using online_school_api.Students.Mappers;
 using online_school_api.Students.Model;
 
 namespace online_school_api.Students.Repository
@@ -163,7 +164,39 @@ namespace online_school_api.Students.Repository
 
         }
 
+      public async Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook)
+      {
+            Student student = await GetEntityByIdAsync(idstudent);
 
+            Book exist = student.Books.FirstOrDefault(s => s.Id == idbook);
+
+            if (updatebook.Name != null)
+            {
+                exist.Name = updatebook.Name;
+
+            }
+            if (updatebook.StudentId.HasValue)
+            {
+                exist.StudentId = updatebook.StudentId.Value;
+
+            }
+
+            _context.Books.Update(exist);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<BookResponse>(exist);
+
+
+
+        
+        
+        
+        
+        
+        
+        
+        }
 
 
 

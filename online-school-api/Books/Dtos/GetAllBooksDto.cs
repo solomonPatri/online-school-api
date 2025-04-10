@@ -3,7 +3,7 @@
     public class GetAllBooksDto
     {
 
-        List<BookResponse> BookList { get; set; }
+       public  List<BookResponse> bookslist { get; set; }
 
 
 

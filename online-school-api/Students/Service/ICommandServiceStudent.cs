@@ -19,7 +19,7 @@ namespace online_school_api.Students.Service
         Task<BookResponse> DeleteBookAsync(int idstudent,int idbook);
 
 
-
+        Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook);
 
 
 

@@ -9,6 +9,7 @@
 
         public const string BookNotFoundException = "The book doesn't exist";
 
+        public const string BookAlreadyExistException = "The Book already exist";
 
 
 

@@ -158,7 +158,29 @@ namespace online_school_api.Students
 
         }
 
+        [HttpPut("updateBook/{idstudent}/{idbook}")]
 
+        public async Task<ActionResult<BookResponse>> UpdateBookAsync([FromRoute]int idstudent,[FromRoute]int idbook, [FromBody]BookUpdateRequest bookupdate)
+        {
+
+            try
+            {
+                BookResponse response = await _command.UpdateBookAsync(idstudent, idbook, bookupdate);
+
+                return Accepted("", response);
+
+            }catch(BookNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+
+
+
+
+
+        }
 
 
 

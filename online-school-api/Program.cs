@@ -1,5 +1,7 @@
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
+using online_school_api.Books.Repository;
+using online_school_api.Books.Service;
 using online_school_api.Data;
 using online_school_api.Students.Repository;
 using online_school_api.Students.Service;
@@ -37,6 +39,13 @@ public class Program
         builder.Services.AddScoped<IQueryServiceStudent, QueryServiceStudent>();
         builder.Services.AddScoped<IStudentRepo, StudentRepo>();
         builder.Services.AddScoped<ICommandServiceStudent, CommandServiceStudent>();
+
+
+        builder.Services.AddScoped<IBookRepo, BookRepo>();
+        builder.Services.AddScoped<ICommandServiceBook, CommandServiceBook>();
+        builder.Services.AddScoped<IQueryServiceBook,QueryServiceBook>();
+
+
 
 
 

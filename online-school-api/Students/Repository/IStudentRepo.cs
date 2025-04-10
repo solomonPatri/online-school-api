@@ -31,7 +31,7 @@ namespace online_school_api.Students.Repository
 
         Task<BookResponse> DeleteBookAsync(int idstudent, int idBook);
 
-
+        Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook);
 
 
 
