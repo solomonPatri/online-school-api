@@ -175,11 +175,6 @@ namespace online_school_api.Students.Repository
                 exist.Name = updatebook.Name;
 
             }
-            if (updatebook.StudentId.HasValue)
-            {
-                exist.StudentId = updatebook.StudentId.Value;
-
-            }
 
             _context.Books.Update(exist);
 

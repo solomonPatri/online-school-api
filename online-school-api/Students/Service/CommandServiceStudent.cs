@@ -8,6 +8,7 @@ using online_school_api.Students.Model;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using online_school_api.Books.Exceptions;
 using System.CodeDom;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace online_school_api.Students.Service
 {
@@ -143,23 +144,14 @@ namespace online_school_api.Students.Service
         public async Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook)
         {
 
-            StudentResponse stud = await _repo.FindByIdAsync(idstudent);
+            Student stud = await _repo.GetEntityByIdAsync(idstudent);
 
-            BookResponse book = stud.Books.FirstOrDefault(s => s.Id == idbook);
+            Book book = stud.Books.First(b => b.Id == idbook);
 
             if (book != null)
             {
-               if(book is BookRequest) {
-
-
-                    book.Name = updatebook.Name ?? book.Name;
-
-                    BookResponse response = await _repo.UpdateBookAsync(idstudent, idbook, updatebook);
-                    return response;
-
-
-
-                }
+               
+                return await _repo.UpdateBookAsync(idstudent, idbook, updatebook); ;
 
             }
             throw new BookNotFoundException();
