@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using online_school_api;
 using online_school_api.Books.Model;
+using online_school_api.Enrolments.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,7 +39,7 @@ namespace online_school_api.Students.Model
 
         public virtual List<Book> Books { get; set; } = new();
 
-        
+        public virtual List<Enrolment> Enrolments { get; set; }
 
 
 
