@@ -2,6 +2,7 @@
 using online_school_api.Courses.Repository;
 using online_school_api.Courses.Exceptions;
 using System.Diagnostics.SymbolStore;
+using Microsoft.EntityFrameworkCore;
 
 namespace online_school_api.Courses.Services
 {

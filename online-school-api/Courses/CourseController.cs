@@ -2,6 +2,7 @@
 using online_school_api.Courses.Dto;
 using online_school_api.Courses.Exceptions;
 using online_school_api.Courses.Services;
+using online_school_api.Enrolments.Dto;
 using System.Security.AccessControl;
 
 namespace online_school_api.Courses
@@ -50,15 +51,13 @@ namespace online_school_api.Courses
 
 
         public async Task<ActionResult<CourseResponse>> CreateAsync([FromBody] CourseRequest create)
-        {
-
-
+        { 
 
             try
             {
                 CourseResponse response = await _command.CreateCourseAsync(create);
 
-                return Created("", response);
+                return Created("",response);
 
             }catch(CourseAlreadyExistException ex)
             {
@@ -70,7 +69,30 @@ namespace online_school_api.Courses
         }
 
 
+        [HttpPost("AddEnrolment")]
 
+
+        public async Task<ActionResult<EnrolmentResponse>> AddEnrolmentAsync([FromBody] EnrolmentRequest add)
+        {
+            try
+            {
+                var response = await _command.AddEnrolmentsAsync(add);
+                return Created("", response);
+            }catch(CourseNotFoundException nf)
+            {
+
+                return NotFound(nf.Message);
+            }
+
+
+
+
+
+
+
+
+
+        }
 
 
 

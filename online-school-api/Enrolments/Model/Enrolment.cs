@@ -21,7 +21,7 @@ namespace online_school_api.Enrolments.Model
         [Required]
         [Column("created")]
 
-        public string Created { get; set; }
+        public DateTime Created { get; set; }
 
 
         public virtual Student Student { get; set; }

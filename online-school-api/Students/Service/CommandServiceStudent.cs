@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Server.IIS.Core;
 using online_school_api.Books.Exceptions;
 using System.CodeDom;
 using Microsoft.AspNetCore.Http.HttpResults;
+using online_school_api.Enrolments.Dto;
 
 namespace online_school_api.Students.Service
 {
@@ -59,6 +60,18 @@ namespace online_school_api.Students.Service
 
            return _mapper.Map<BookResponse>(book);
        }
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
         public async Task<StudentResponse> UpdateStudentAsync(int id,StudentUpdateRequest update)

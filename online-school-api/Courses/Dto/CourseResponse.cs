@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using online_school_api.Enrolments.Model;
+using online_school_api.Enrolments.Dto;
 
 namespace online_school_api.Courses.Dto
 {
@@ -19,18 +20,6 @@ namespace online_school_api.Courses.Dto
   
 
         public DateTime DateCreated { get; set; }
-
-
-
-        public List<Enrolment> Enrolments { get; set; } 
-
-
-
-
-
-
-
-
 
 
 

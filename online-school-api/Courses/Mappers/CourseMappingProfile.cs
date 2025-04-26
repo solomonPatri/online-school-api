@@ -12,10 +12,9 @@ namespace online_school_api.Courses.Mappers
             CreateMap<CourseRequest, Course>();
             CreateMap<Course, CourseResponse>();
             CreateMap<CourseUpdateRequest, Course>();
-            
 
-            CreateMap<Course, CourseResponse>()
-                .ForMember(dest => dest.Enrolments, opt => opt.MapFrom(src => src.Enrolments));
+
+            CreateMap<Course, CourseResponse>();
 
 
 

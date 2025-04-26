@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using online_school_api.Courses.Dto;
-using online_school_api.Courses.Model;
 using online_school_api.Data;
-using System.Data.Entity;
+using online_school_api.Courses.Dto;
+using online_school_api.Courses.Mappers;
+using online_school_api.Courses.Model;
 
 namespace online_school_api.Courses.Repository
 {
@@ -23,8 +23,7 @@ namespace online_school_api.Courses.Repository
 
         public async Task<GetAllCourseDtos> GetAllCourseAsync()
         {
-            var courses = await _context.Courses
-                .ToListAsync();
+            var courses = await _context.Courses.Include(c=>c.Enrolments).ToListAsync();
 
             var mapped = _mapper.Map<List<CourseResponse>>(courses);
 
@@ -73,10 +72,53 @@ namespace online_school_api.Courses.Repository
 
         }
 
+        public async Task<Course?> GetEntityByIdAsync(int id)
+        {
+
+            return await _context.Courses.Include(c => c.Enrolments).FirstOrDefaultAsync(e => e.Id == id);
+
+
+
+        }
+
+        public async Task<CourseResponse> UpdateCoursAsync(int id, CourseUpdateRequest update)
+        {
+            Course ex = await _context.Courses.FindAsync(id);
+
+            if (update.Name != null)
+            {
+                ex.Name = update.Name;
+
+            }
+
+            if (update.Departament != null)
+            {
+
+                ex.Departament = update.Departament;
+
+            }
+
+            _context.Courses.Update(ex);
+
+            await _context.SaveChangesAsync();
+
+            CourseResponse response = _mapper.Map<CourseResponse>(ex);
+
+            return response;
 
 
 
 
+
+        }
+
+        public async Task UpdateAsync(Course course)
+        {
+
+            _context.Courses.Update(course);
+
+            await _context.SaveChangesAsync();
+        }
 
 
 

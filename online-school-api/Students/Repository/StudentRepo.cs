@@ -23,8 +23,11 @@ namespace online_school_api.Students.Repository
         public async Task<GetAllStudentsDto> GetAllAsync()
         {
             var students = await _context.Students
-                .Include(s => s.Books)
-                .ToListAsync();
+                                  .Include(s => s.Books)
+                                  .Include(s => s.Enrolments)
+                                      .ThenInclude(e => e.Course)
+                                  .AsNoTracking()
+                                  .ToListAsync();
 
             var mapped = _mapper.Map<List<StudentResponse>>(students);
 
