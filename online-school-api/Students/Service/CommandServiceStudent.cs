@@ -10,6 +10,9 @@ using online_school_api.Books.Exceptions;
 using System.CodeDom;
 using Microsoft.AspNetCore.Http.HttpResults;
 using online_school_api.Enrolments.Dto;
+using online_school_api.Courses.Exceptions;
+using online_school_api.Enrolments.Model;
+using System.Runtime.InteropServices;
 
 namespace online_school_api.Students.Service
 {
@@ -47,32 +50,30 @@ namespace online_school_api.Students.Service
        public async Task<BookResponse> AddBookAsync(BookRequest bookRequest)
        {
            var student = await _repo.GetEntityByIdAsync(bookRequest.StudentId);
+           
+           if (student != null)
+            {
+                var b = _mapper.Map<Book>(bookRequest);
+                var book = await _repo.GetBookByStudentIdAsync(bookRequest.Name, student.Id);
 
-           if (student == null)
+                if (book == null)
+                {
+                    b.Created = DateTime.UtcNow;
+
+                    student.Books.Add(b);
+
+                    await _repo.UpdateAsync(student);
+
+                    return _mapper.Map<BookResponse>(b);
+                }
+                throw new BookAlreadyExistException();
+            }
                throw new StudentNotFoundException();
 
-           var book = _mapper.Map<Book>(bookRequest);
-           book.Created = DateTime.UtcNow;
+          
 
-           student.Books.Add(book);
-
-           await _repo.UpdateAsync(student);
-
-           return _mapper.Map<BookResponse>(book);
        }
-
- 
-
-
-
-
-
-
-
-
-
-
-
+      
 
         public async Task<StudentResponse> UpdateStudentAsync(int id,StudentUpdateRequest update)
         {
@@ -154,48 +155,48 @@ namespace online_school_api.Students.Service
         }
 
 
-        public async Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook)
-        {
-
-            Student stud = await _repo.GetEntityByIdAsync(idstudent);
-
-            Book book = stud.Books.First(b => b.Id == idbook);
-
-            if (book != null)
+      public async Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook)
             {
-               
-                return await _repo.UpdateBookAsync(idstudent, idbook, updatebook); ;
+
+                Student stud = await _repo.GetEntityByIdAsync(idstudent);
+
+                Book book = stud.Books.First(b => b.Id == idbook);
+
+                if (book != null)
+                {
+
+                    return await _repo.UpdateBookAsync(idstudent, idbook, updatebook); 
+
+                }
+                throw new BookNotFoundException();
 
             }
-            throw new BookNotFoundException();
 
 
+        public async Task<EnrolmentResponse> AddEnrolment(EnrolmentRequest create)
+        {
+            var student = await _repo.GetEntityByIdAsync(create.StudentId);
+          
 
+            if (student != null)
+            {
+                var enr = _mapper.Map<Enrolment>(create);
+                var course = await _repo.GetEnrolledCourseByStudentIdAsync(create.CourseId, student.Id);
+                if (course==null)
+                {
 
+                    enr.Created = DateTime.UtcNow;
 
+                    student.Enrolments.Add(enr);
 
+                    await _repo.UpdateAsync(student);
+                    return _mapper.Map<EnrolmentResponse>(enr);
 
-
-
-
-
-
-
+                }
+                throw new CourseAlreadyExistException();
+            }
+               throw new StudentNotFoundException();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

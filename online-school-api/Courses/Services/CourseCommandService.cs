@@ -40,31 +40,7 @@ namespace online_school_api.Courses.Services
 
         }
 
-        public async Task<EnrolmentResponse> AddEnrolmentsAsync(EnrolmentRequest request)
-        {
-            var course = await _repo.GetEntityByIdAsync(request.CourseId);
-
-            if(course == null)
-            {
-                throw new CourseNotFoundException();
-
-            }
-
-            var enr = _mapper.Map<Enrolment>(request);
-            enr.Created = DateTime.UtcNow;
-
-            course.Enrolments.Add(enr);
-
-            await _repo.UpdateAsync(course);
-
-            return _mapper.Map<EnrolmentResponse>(enr);
-
-
-
-
-
-
-        }
+        
 
 
 

@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using online_school_api.Books.Dtos;
 using online_school_api.Books.Model;
+using online_school_api.Courses.Dto;
 using online_school_api.Data;
+using online_school_api.Enrolments.Dto;
+using online_school_api.Enrolments.Model;
 using online_school_api.Students.Dtos;
+using online_school_api.Students.Exceptions;
 using online_school_api.Students.Mappers;
 using online_school_api.Students.Model;
 
@@ -61,6 +66,7 @@ namespace online_school_api.Students.Repository
         {
             return await _context.Students
                 .Include(s => s.Books)
+                .Include(er=>er.Enrolments)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
         public async Task<StudentResponse> UpdateAsync(int id ,StudentUpdateRequest update)
@@ -133,7 +139,7 @@ namespace online_school_api.Students.Repository
 
         public async Task UpdateAsync(Student student)
         {
-            _context.Students.Update(student);
+             _context.Students.Update(student);
             await _context.SaveChangesAsync();
 
         }
@@ -184,17 +190,42 @@ namespace online_school_api.Students.Repository
             await _context.SaveChangesAsync();
 
             return _mapper.Map<BookResponse>(exist);
-
-
-
-        
-        
-        
-        
-        
-        
-        
         }
+
+
+        public async Task<EnrolmentResponse> AddEnrolment(EnrolmentRequest create)
+        {
+            var enr = _mapper.Map<Enrolment>(create);
+
+            await _context.Enrolments.AddAsync(enr);
+
+            _context.SaveChangesAsync();
+
+            var response = _mapper.Map<EnrolmentResponse>(enr);
+
+            return response;
+
+        }
+        public async Task<CourseResponse?> GetEnrolledCourseByStudentIdAsync(int courseId, int studentId)
+        {
+            return await _context.Enrolments
+                                 .Where(e => e.StudentId == studentId &&
+                                             e.CourseId == courseId)
+                                 .Select(e => e.Course)
+                                 .ProjectTo<CourseResponse>(_mapper.ConfigurationProvider)
+                                 .FirstOrDefaultAsync();
+        }
+       public async  Task<BookResponse?> GetBookByStudentIdAsync(string bookname, int studentId)
+        {
+            return await _context.Students.Where(s => s.Id == studentId).Select(b => b.Name.Equals(bookname))
+                                             .ProjectTo<BookResponse>(_mapper.ConfigurationProvider)
+                                             .FirstOrDefaultAsync();
+
+
+        }
+
+
+
 
 
 

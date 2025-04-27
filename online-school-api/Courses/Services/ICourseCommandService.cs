@@ -8,7 +8,7 @@ namespace online_school_api.Courses.Services
 
         Task<CourseResponse> CreateCourseAsync(CourseRequest create);
 
-        Task<EnrolmentResponse> AddEnrolmentsAsync(EnrolmentRequest request);
+        
 
 
 

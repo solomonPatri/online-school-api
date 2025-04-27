@@ -1,4 +1,7 @@
 ﻿using online_school_api.Books.Dtos;
+using online_school_api.Courses.Model;
+using online_school_api.Courses.Dto;
+using online_school_api.Enrolments.Dto;
 using online_school_api.Students.Dtos;
 using online_school_api.Students.Model;
 
@@ -33,10 +36,10 @@ namespace online_school_api.Students.Repository
 
         Task<BookResponse> UpdateBookAsync(int idstudent, int idbook, BookUpdateRequest updatebook);
 
+        Task<EnrolmentResponse> AddEnrolment(EnrolmentRequest create);
 
-
-
-
+        Task<CourseResponse?> GetEnrolledCourseByStudentIdAsync(int courseId, int studentId);
+        Task<BookResponse?> GetBookByStudentIdAsync(string bookid, int studentId);
 
     }
 }

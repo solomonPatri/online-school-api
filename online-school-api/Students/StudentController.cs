@@ -5,6 +5,8 @@ using online_school_api.Students.Service;
 using System.Security.AccessControl;
 using online_school_api.Books.Dtos;
 using online_school_api.Books.Exceptions;
+using online_school_api.Courses.Exceptions;
+using online_school_api.Enrolments.Dto;
 
 namespace online_school_api.Students
 {
@@ -72,6 +74,9 @@ namespace online_school_api.Students
             {
                 var response = await _command.AddBookAsync(bookRequest);
                 return Created("", response);
+            }catch(BookAlreadyExistException al)
+            {
+                return BadRequest(al.Message);
             }
             catch (StudentNotFoundException ex)
             {
@@ -182,6 +187,27 @@ namespace online_school_api.Students
 
         }
 
+        [HttpPost("AddEnrolment")]
+
+
+        public async Task<ActionResult<EnrolmentResponse>> AddEnrolmentAsync([FromBody] EnrolmentRequest add)
+        {
+            try
+            {
+                var response = await _command.AddEnrolment(add);
+                return Created("", response);
+            }
+            catch (CourseAlreadyExistException nf)
+            {
+
+                return BadRequest(nf.Message);
+            }catch(StudentNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+        }
 
 
 

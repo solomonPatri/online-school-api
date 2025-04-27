@@ -69,31 +69,7 @@ namespace online_school_api.Courses
         }
 
 
-        [HttpPost("AddEnrolment")]
-
-
-        public async Task<ActionResult<EnrolmentResponse>> AddEnrolmentAsync([FromBody] EnrolmentRequest add)
-        {
-            try
-            {
-                var response = await _command.AddEnrolmentsAsync(add);
-                return Created("", response);
-            }catch(CourseNotFoundException nf)
-            {
-
-                return NotFound(nf.Message);
-            }
-
-
-
-
-
-
-
-
-
-        }
-
+        
 
 
 
