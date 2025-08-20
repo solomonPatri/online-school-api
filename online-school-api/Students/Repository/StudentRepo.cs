@@ -10,7 +10,9 @@ using online_school_api.Enrolments.Model;
 using online_school_api.Students.Dtos;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Mappers;
+using online_school_api.Enrolments.Mappers;
 using online_school_api.Students.Model;
+using System.Security.Principal;
 
 namespace online_school_api.Students.Repository
 {
@@ -224,10 +226,42 @@ namespace online_school_api.Students.Repository
 
         }
 
+        public async Task<GetAllEnroments> GetAllEnrolmentsByStudentId (int idstudent)
+        {
+
+            var enrol = await _context.Students.Where(s => s.Id == idstudent).Include(e => e.Enrolments).ToListAsync();
+
+            var select = enrol.Select(s => s.Enrolments);
+
+            var response = _mapper.Map<GetAllEnroments>(select);
+
+            return response ;
+        }
+
+
+        public async Task<EnrolmentResponse> UpdateEnrolmentsAsync(int studentid, int oldidcourse, int newidcourse)
+        {
+            GetAllEnroments enrolments = await GetAllEnrolmentsByStudentId(studentid);
+
+            var select = enrolments.EnrolmentList.Where(e => e.CourseId == oldidcourse);
+
+            Enrolment response = _mapper.Map<Enrolment>(select);
+           
+            if (response != null)
+            {
+                response.CourseId = newidcourse;
+
+                _context.Enrolments.Update(response);
+
+            }
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<EnrolmentResponse>(response);
 
 
 
-
+        }
 
 
 

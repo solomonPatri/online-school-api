@@ -33,7 +33,19 @@ namespace online_school_api.Courses.Services
 
         }
 
+        public async Task<CourseResponse?> GetCourseMostPopular()
+        {
 
+            CourseResponse response = await _repo.GetCourseMostPopular();
+
+            if (response != null)
+            {
+                return response;
+            }
+            throw new CourseNotFoundException();
+
+
+        }
 
 
 

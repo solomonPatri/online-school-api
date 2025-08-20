@@ -8,8 +8,9 @@ namespace online_school_api.Courses.Services
 
         Task<CourseResponse> CreateCourseAsync(CourseRequest create);
 
-        
+        Task<CourseResponse> UpdateCourseAsync(int id, CourseUpdateRequest update);
 
+        Task<CourseResponse> DeleteCourseAsync(int id);
 
 
 

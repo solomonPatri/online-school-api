@@ -10,7 +10,7 @@ namespace online_school_api.Enrolments.Mappers
         {
             CreateMap<EnrolmentRequest, Enrolment>();
             CreateMap<Enrolment, EnrolmentResponse>();
-            
+            CreateMap<List<EnrolmentResponse>, GetAllEnroments>();
 
 
         }

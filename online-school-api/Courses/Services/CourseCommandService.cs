@@ -39,8 +39,50 @@ namespace online_school_api.Courses.Services
 
 
         }
+        public async Task<CourseResponse> DeleteCourseAsync(int id)
+        {
+            CourseResponse verf = await _repo.FindByIdAsync(id);
+            if (verf != null)
+            {
+                CourseResponse response = await _repo.DeleteCourseAsync(id);
+                return response;
+            }
+            throw new CourseNotFoundException();
 
-        
+
+
+
+        }
+        public async Task<CourseResponse> UpdateCourseAsync(int id, CourseUpdateRequest update)
+        {
+
+            CourseResponse verif = await this._repo.FindByIdAsync(id);
+
+            if (verif != null)
+            {
+
+               
+                    verif.Name = update.Name ?? verif.Name;
+                    verif.Departament = update.Departament ?? verif.Departament;
+
+                    CourseResponse response = await this._repo.UpdateCourseAsync(id, update);
+                    return response;
+
+
+         
+
+            }
+
+            throw new CourseNotFoundException();
+                
+                
+        }
+
+
+
+
+
+
 
 
 

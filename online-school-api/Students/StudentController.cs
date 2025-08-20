@@ -7,6 +7,7 @@ using online_school_api.Books.Dtos;
 using online_school_api.Books.Exceptions;
 using online_school_api.Courses.Exceptions;
 using online_school_api.Enrolments.Dto;
+using online_school_api.Enrolments.Exceptions;
 
 namespace online_school_api.Students
 {
@@ -190,7 +191,7 @@ namespace online_school_api.Students
         [HttpPost("AddEnrolment")]
 
 
-        public async Task<ActionResult<EnrolmentResponse>> AddEnrolmentAsync([FromBody] EnrolmentRequest add)
+         public async Task<ActionResult<EnrolmentResponse>> AddEnrolmentAsync([FromBody] EnrolmentRequest add)
         {
             try
             {
@@ -209,12 +210,41 @@ namespace online_school_api.Students
 
         }
 
+        //   [HttpPut("editEnrolments/{idstudent}")]
+
+        // public async Task<ActionResult<EnrolmentResponse>> UpdateEnrolmentAsync([FromRoute]int id, [FromBody]EnrolmentUpdateRequest update)
+        // {
+        // //    try
+        //    {
+        //
+        //  EnrolmentResponse response = await _command.UpdateEnrolmentAsync(id, update);
+
+        //         return Accepted("", response);
+        //   }catch(EnrolmentsNotFoundException nf)
+        //     {
+        //        return NotFound(nf.Message);
+        //    }
+
+        [HttpPut("editEnrolment/{studentid}/{oldidcourse}/{newidcourse}")]
+
+        public async Task<ActionResult<EnrolmentResponse>> UpdateEnrolmentAsync([FromRoute] int studentid, [FromRoute]int oldidcourse, [FromRoute]int newidcourse)
+        {
+
+            try
+            {
+
+                EnrolmentResponse response = await _command.UpdateEnrolmentAsync(studentid, oldidcourse, newidcourse);
+
+                return Accepted("", response);
+            }catch(EnrolmentsNotFoundException f)
+            {
+                return NotFound(f.Message);
+
+            }
 
 
 
-
-
-
+        }
 
 
 
@@ -222,4 +252,15 @@ namespace online_school_api.Students
 
 
     }
+
+
+
+
+
+
+
+
+
+
 }
+

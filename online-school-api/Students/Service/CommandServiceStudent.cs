@@ -12,7 +12,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using online_school_api.Enrolments.Dto;
 using online_school_api.Courses.Exceptions;
 using online_school_api.Enrolments.Model;
+using online_school_api.Enrolments.Mappers;
 using System.Runtime.InteropServices;
+using online_school_api.Enrolments.Exceptions;
+using Microsoft.JSInterop;
 
 namespace online_school_api.Students.Service
 {
@@ -197,6 +200,52 @@ namespace online_school_api.Students.Service
             }
                throw new StudentNotFoundException();
         }
+
+
+        // public async  Task<EnrolmentResponse> UpdateEnrolmentAsync(int idstudent, EnrolmentUpdateRequest update)
+        // {
+
+
+        //     Student stud = await _repo.GetEntityByIdAsync(idstudent);
+
+        //     var response = stud.Enrolments.First(e => e.CourseId == update.courseId);
+        //
+        //     if (response != null)
+        ///      {
+
+        ///        return await _repo.UpdateEnrolmentAsync(idstudent, update);
+
+        //   }
+        //   throw new EnrolmentsNotFoundException();
+
+
+
+        // }
+
+
+       public async  Task<EnrolmentResponse> UpdateEnrolmentAsync(int studentid, int oldidcourse, int newidcourse)
+        {
+            GetAllEnroments list = await _repo.GetAllEnrolmentsByStudentId(studentid);
+
+
+           var  select = list.EnrolmentList.Where(s => s.CourseId == oldidcourse);
+
+            Enrolment response = _mapper.Map<Enrolment>(select);
+
+            if(response != null)
+            {
+
+                EnrolmentResponse res = await _repo.UpdateEnrolmentsAsync(studentid, oldidcourse, newidcourse);
+                return res;
+            
+            }
+            throw new EnrolmentsNotFoundException();
+
+
+
+
+        }
+
 
 
 

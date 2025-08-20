@@ -6,7 +6,7 @@ namespace online_school_api.Courses.Services
     {
 
         Task<GetAllCourseDtos> GetAllCourseAsync();
-
+        Task<CourseResponse?> GetCourseMostPopular();
 
 
 

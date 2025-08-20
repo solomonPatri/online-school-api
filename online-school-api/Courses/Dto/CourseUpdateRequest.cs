@@ -7,9 +7,9 @@ namespace online_school_api.Courses.Dto
 
     
 
-        public string?Name { get; set; }
+        public string? Name { get; set; }
 
-        public string ?Departament { get; set; }
+        public string? Departament { get; set; }
 
 
 

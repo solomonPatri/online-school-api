@@ -3,6 +3,8 @@ using System.Diagnostics.SymbolStore;
 using online_school_api.Students.Exceptions;
 using online_school_api.Students.Model;
 using online_school_api.Students.Dtos;
+using online_school_api.Enrolments.Dto;
+using online_school_api.Enrolments.Exceptions;
 
 namespace online_school_api.Students.Service
 {
@@ -29,8 +31,8 @@ namespace online_school_api.Students.Service
             throw new StudentNotFoundException();
 
         }
+   
 
-       
 
 
 

@@ -68,11 +68,68 @@ namespace online_school_api.Courses
 
         }
 
-
+        [HttpPut("updateCourse/{id}")]
         
+        public async Task<ActionResult<CourseResponse>> UdpateCourseAsync([FromRoute]int id, [FromBody]CourseUpdateRequest update)
+        {
+
+
+            try
+            {
+                CourseResponse response = await _command.UpdateCourseAsync(id, update);
+
+                return Accepted("", response);
 
 
 
+            }catch(CourseNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+        }
+
+        [HttpDelete("deleteCourse/{id}")]
+
+
+        public async Task<ActionResult<CourseResponse>> DeleteCourseAsync([FromRoute]int id)
+        {
+
+            try
+            {
+                CourseResponse response = await _command.DeleteCourseAsync(id);
+
+                return Accepted("", response);
+
+            }catch(CourseNotFoundException nf)
+            {
+                return NotFound(nf.Message);
+            }
+
+
+        }
+
+        [HttpGet("most-popular-course")]
+
+        public async Task<ActionResult<CourseResponse>> GetCourseMostPopular()
+        {
+            try
+            {
+
+                CourseResponse response = await _query.GetCourseMostPopular();
+
+                return Ok(response);
+
+            }catch(CourseNotFoundException nf) {
+
+                return NotFound(nf.Message);
+            
+            }
+
+
+
+
+        }
 
 
 

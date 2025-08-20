@@ -18,8 +18,10 @@
 
         public const string CourseNotFoundException = "The Course doesn't exist";
 
-       
 
+        //enrolments exceptions
+
+        public const string EnrolmentsNotFound = "We don't have Enrolment, Create it!";
 
 
 

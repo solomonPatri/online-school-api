@@ -15,8 +15,7 @@ namespace online_school_api.Courses.Dto
 
         public string Departament { get; set; }
 
-        [Required]
-        public DateTime DateCreated { get; set; }
+      
 
 
 

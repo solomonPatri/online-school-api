@@ -46,21 +46,24 @@ namespace online_school_api.Courses.Repository
 
             await _context.Courses.AddAsync(course);
 
-           _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
 
             var response = _mapper.Map<CourseResponse>(course);
 
             return response;
 
 
+        }
 
+        public async Task<CourseResponse> FindByIdAsync(int id)
+        {
+            Course course = await _context.Courses.FindAsync(id);
+            return _mapper.Map<CourseResponse>(course);
 
 
 
 
         }
-
-
         public async Task<CourseResponse> FindByNameCourseAsync(string name)
         {
             Course searched = await _context.Courses.FirstOrDefaultAsync(c => c.Name.Equals(name));
@@ -81,7 +84,44 @@ namespace online_school_api.Courses.Repository
 
         }
 
-        public async Task<CourseResponse> UpdateCoursAsync(int id, CourseUpdateRequest update)
+       
+        public async Task UpdateAsync(Course course)
+        {
+
+            _context.Courses.Update(course);
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task<CourseResponse> DeleteCourseAsync(int id)
+        {
+
+            Course course = await _context.Courses.FindAsync(id);
+
+            CourseResponse response = _mapper.Map<CourseResponse>(course);
+            _context.Remove(course);
+
+            await _context.SaveChangesAsync();
+
+            return response;
+
+
+        }
+
+        public async Task<CourseResponse?> GetCourseMostPopular()
+        {
+            var course = await _context.Courses.Include(c => c.Enrolments)
+                .OrderByDescending(c => c.Enrolments.Count)
+                .FirstOrDefaultAsync();
+
+            return course == null ? null : _mapper.Map<CourseResponse>(course);
+
+           
+        }
+
+
+        public async Task<CourseResponse> UpdateCourseAsync(int id, CourseUpdateRequest update)
         {
             Course ex = await _context.Courses.FindAsync(id);
 
@@ -112,13 +152,6 @@ namespace online_school_api.Courses.Repository
 
         }
 
-        public async Task UpdateAsync(Course course)
-        {
-
-            _context.Courses.Update(course);
-
-            await _context.SaveChangesAsync();
-        }
 
 
 
