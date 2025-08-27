@@ -25,8 +25,6 @@ namespace online_school_api.Students.Service
 
         Task<EnrolmentResponse> AddEnrolment(EnrolmentRequest create);
 
-        Task<EnrolmentResponse> UpdateEnrolmentAsync(int studentid, int oldidcourse, int newidcourse);
-
-
+     
     }
 }

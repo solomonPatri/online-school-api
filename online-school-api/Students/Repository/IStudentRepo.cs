@@ -41,12 +41,9 @@ namespace online_school_api.Students.Repository
         Task<CourseResponse?> GetEnrolledCourseByStudentIdAsync(int courseId, int studentId);
         Task<BookResponse?> GetBookByStudentIdAsync(string bookid, int studentId);
 
-        //Task<EnrolmentResponse> UpdateEnrolmentAsync(int oldidcourse, EnrolmentUpdateRequest update);
-        Task<EnrolmentResponse> UpdateEnrolmentsAsync(int studentid, int oldidcourse, int newidcourse);
         Task<GetAllEnroments> GetAllEnrolmentsByStudentId(int idstudent);
 
-
-
+      
 
 
 

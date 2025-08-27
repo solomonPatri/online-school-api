@@ -83,23 +83,14 @@ namespace online_school_api.Students.Service
 
             StudentResponse verf = await this._repo.FindByIdAsync(id);
 
+           
+
             if(verf != null)
             {
-                if(verf is StudentRequest)
-                {
+                StudentResponse response = await this._repo.UpdateAsync(id, update);
 
-                    verf.Name = update.Name ?? verf.Name;
-                    verf.Email = update.Email ?? verf.Email;
-                    verf.Age = update.Age ?? verf.Age;
-                    verf.University = update.University ??verf.University;
+                return response;
 
-                    StudentResponse response = await this._repo.UpdateAsync(id, update);
-
-                    return response;
-
-
-                }
-               
 
 
             }
@@ -200,53 +191,6 @@ namespace online_school_api.Students.Service
             }
                throw new StudentNotFoundException();
         }
-
-
-        // public async  Task<EnrolmentResponse> UpdateEnrolmentAsync(int idstudent, EnrolmentUpdateRequest update)
-        // {
-
-
-        //     Student stud = await _repo.GetEntityByIdAsync(idstudent);
-
-        //     var response = stud.Enrolments.First(e => e.CourseId == update.courseId);
-        //
-        //     if (response != null)
-        ///      {
-
-        ///        return await _repo.UpdateEnrolmentAsync(idstudent, update);
-
-        //   }
-        //   throw new EnrolmentsNotFoundException();
-
-
-
-        // }
-
-
-       public async  Task<EnrolmentResponse> UpdateEnrolmentAsync(int studentid, int oldidcourse, int newidcourse)
-        {
-            GetAllEnroments list = await _repo.GetAllEnrolmentsByStudentId(studentid);
-
-
-           var  select = list.EnrolmentList.Where(s => s.CourseId == oldidcourse);
-
-            Enrolment response = _mapper.Map<Enrolment>(select);
-
-            if(response != null)
-            {
-
-                EnrolmentResponse res = await _repo.UpdateEnrolmentsAsync(studentid, oldidcourse, newidcourse);
-                return res;
-            
-            }
-            throw new EnrolmentsNotFoundException();
-
-
-
-
-        }
-
-
 
 
 

@@ -219,9 +219,11 @@ namespace online_school_api.Students.Repository
         }
        public async  Task<BookResponse?> GetBookByStudentIdAsync(string bookname, int studentId)
         {
-            return await _context.Students.Where(s => s.Id == studentId).Select(b => b.Name.Equals(bookname))
-                                             .ProjectTo<BookResponse>(_mapper.ConfigurationProvider)
-                                             .FirstOrDefaultAsync();
+            return await _context.Students.Where(s => s.Id == studentId)
+                .SelectMany(b => b.Books)
+                .Where(b=>b.Name == bookname)
+                .ProjectTo<BookResponse>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
 
 
         }
@@ -233,38 +235,13 @@ namespace online_school_api.Students.Repository
 
             var select = enrol.Select(s => s.Enrolments);
 
-            var response = _mapper.Map<GetAllEnroments>(select);
+            GetAllEnroments response = _mapper.Map<GetAllEnroments>(select);
 
             return response ;
         }
 
 
-        public async Task<EnrolmentResponse> UpdateEnrolmentsAsync(int studentid, int oldidcourse, int newidcourse)
-        {
-            GetAllEnroments enrolments = await GetAllEnrolmentsByStudentId(studentid);
-
-            var select = enrolments.EnrolmentList.Where(e => e.CourseId == oldidcourse);
-
-            Enrolment response = _mapper.Map<Enrolment>(select);
-           
-            if (response != null)
-            {
-                response.CourseId = newidcourse;
-
-                _context.Enrolments.Update(response);
-
-            }
-
-            await _context.SaveChangesAsync();
-
-            return _mapper.Map<EnrolmentResponse>(response);
-
-
-
-        }
-
-
-
+      
 
 
 
